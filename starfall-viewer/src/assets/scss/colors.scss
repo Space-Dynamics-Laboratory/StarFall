@@ -1,0 +1,121 @@
+/*************************************************************************************************
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+**************************************************************************************************/
+
+@use "sass:color";
+
+// BLACK/WHITE COLORS
+$light-grey: #7E8086;
+$light-grey-2: #DDD;
+$grey: #3E3B3F;
+$grey-1: #2C292D;
+$grey-2: #222222;
+$grey-3: #1A191B;
+$grey-4: #464148;
+$black: black;
+$white: #f1f1f1;
+$off-white: #BBB;
+
+$transparent: rgba(0, 0, 0, 0);
+$shadow: rgba(0, 0, 0, 0.5);
+$shadow-light: rgba(0, 0, 0, 0.15);
+
+// OTHER COLORS
+/* monokai dark colors */
+// $red: #FF6188;
+// $green: #A9DC76;
+// $yellow: #FFD866;
+// $orange: #FC9867;
+// $purple: #AB9DF2;
+// $blue: #78DCE8;
+
+// Default
+// $red: rgb(255, 0, 64);
+// $green: #1f9422;
+// $yellow: #FFD866;
+// $orange: rgb(255, 132, 50);
+// $purple: rgb(129, 104, 255);
+// $blue: rgb(47, 67, 255);
+
+/* Scheme 1 */
+// https://coolors.co/f94144-f3722c-f8961e-f9c74f-90be6d-c4e0a3-66a8d3-5590c9-4378be-9a78ba
+$red: #f94144;
+$light-red: rgba(255, 0, 0, 0.4);
+$green: #90be6d;
+$light-green: #C4E0A3;
+$yellow: #f9c74f;
+$orange: #f8961e;
+$light-blue: #66a8d3;
+$blue: #5590C9;
+$dark-blue: #4378BE;
+$deep-blue: #2778c4;
+$dark-deep-blue: #1768b4;
+$light-deep-blue: #a1d0ff;
+$purple: #A486C1;
+
+$earth-brown: #5D472E;
+$earth-green: #55673B;
+
+$energy-gradient-1: #283c64;
+$energy-gradient-2: #0b69a6;
+$energy-gradient-3: #3094a5;
+$energy-gradient-4: #adbd5f;
+$energy-gradient-5: #f2c338;
+$energy-gradient-6: #f2a038;
+$energy-gradient-7: #eb6e30;
+$energy-gradient-8: #d91e1e;
+
+$inactive: $light-grey;
+$hover-grey: $light-grey-2;
+$gl-grey: $grey-2; // grey color used in golden layout
+$input-box-grey: $grey-4;
+$accent: $deep-blue;
+$light-accent: $light-deep-blue;
+$button-light-grey: $light-grey-2;
+$error-red: $light-red;
+
+$row-hover: color.adjust($purple, $lightness: 15%);
+$row-selected: $purple;
+
+$info: #80bfe0;
+$debug: $green;
+$warning: $orange;
+$warn: $orange;
+$error: $red;
+$success: $green;
+$OK: $green;
+
+$service-active: $green;
+$service-inactive: $red;
+
+// processing states
+$new: $light-blue;
+$waiting: $light-blue;
+$processing: $light-blue;
+$failed: $orange;
+$parameter-estimation: color.adjust($light-blue, $lightness: 7%);
+$user-analysis: color.adjust($light-blue, $lightness: 0%);
+$accepted: color.adjust($green, $lightness: 7%);
+$deferred: $yellow;
+$rejected: $red;
+$no-solution: $orange;
+$no-data: $orange;
+
+// buttons
+$submit-button: $light-blue;
+$submit-button-hover: color.adjust($light-blue, $lightness: -5%);

@@ -1,0 +1,75 @@
+{
+	"name": "GLM Development Environment",
+	"dockerComposeFile": [
+		"../docker/docker-compose.dev.yml"
+	],
+	"runServices": [
+		"glmtrigger"
+	],
+	"service": "glmtrigger",
+	"workspaceFolder": "/home/developer/glmtriggergen",
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Set *default* container specific settings.json values on container create.
+			"extensions": [
+				"ms-python.python",
+				"Gruntfuggly.auto-snippet",
+				"njpwerner.autodocstring",
+				"zxh404.vscode-proto3",
+				"ms-python.black-formatter",
+				"ms-python.pylint",
+				"ms-python.isort",
+				"ms-python.vscode-pylance"
+			],
+			"settings": {
+				"terminal.integrated.profiles.linux": {
+					"bash": {
+						"path": "bash"
+					}
+				},
+				"files.trimTrailingWhitespace": true,
+				"python.defaultInterpreterPath": "/home/developer/miniconda3/envs/py3117/bin/python",
+				"python.terminal.activateEnvironment": false,
+				"[python]": {
+					"editor.defaultFormatter": "ms-python.black-formatter",
+					"diffEditor.ignoreTrimWhitespace": false,
+					"editor.formatOnType": true,
+					"editor.wordBasedSuggestions": "allDocuments",
+					"editor.formatOnSave": true,
+					"editor.codeActionsOnSave": {
+						"source.organizeImports": true
+					}
+				},
+				"python.formatting.provider": "none",
+				"isort.args": [
+					"--profile",
+					"black"
+				],
+				"pylint.args": [
+					"--rcfile=${workspaceFolder}/.pylintrc"
+				],
+				"python.testing.pytestArgs": [
+					"tests"
+				],
+				"python.testing.unittestEnabled": false,
+				"python.testing.pytestEnabled": true,
+				"autoSnippet.snippets": [
+					{
+						// more file types can be ignored by adding `|(ext)` inside the `(?!)` group
+						"regex": ".*\\.(?!(md)|(m)|(nc)|(gstmp)|(gitkeep)).*",
+						"snippet": "License Text",
+						"commands": [
+							"editor.action.addCursorsToTop",
+							"editor.action.commentLine",
+							"cursorBottom",
+							"workbench.action.files.save",
+							"editor.action.insertLineAfter"
+						]
+					}
+				]
+			}
+		}
+	},
+	"postCreateCommand": "bash .devcontainer/postCreate.sh"
+}

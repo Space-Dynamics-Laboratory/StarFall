@@ -1,0 +1,63 @@
+/*************************************************************************************************
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+**************************************************************************************************/
+
+syntax = "proto2";
+
+package starfall.proto;  // Helps us know these are starfall protobuf objects
+
+// when compiled into code, the protobuf variables have names that are in
+//   lowercase only. Thus names using camelcase become more difficult to read.
+//   We use underscores here.
+
+message SampleData
+{
+  optional int32 delta_time_microsecs = 1;  // the delta time (+/-) from event
+  optional int32 example1_rawi            = 2;  // raw current sample
+  optional int32 example2_rawi            = 3;  // raw current sample
+  optional double example1_bgsub          = 4;  // sample with the background subtracted
+  optional double example2_bgsub          = 5;  // sample with the background subtracted
+}
+
+message AablData
+{
+  optional int32 delta_time_microsecs = 1;  // the delta time (+/-) from event
+  optional int32 toe_returns          = 2;  // number of toe returns
+  optional int32 pha_sum              = 3;  // sum of pha values
+}
+
+message ProcessData
+{
+  optional int32 delta_time_microsecs = 1;  // the delta time (+/-) from event
+  optional double example1_invfiltered    = 2;  // inverse-filtered sample
+  optional double example2_invfiltered    = 3;  // inverse-filtered sample
+  optional double integrated_signal   = 4;  // integrated signal
+}
+
+/**
+ * Structure for carrying data from a trigger source at the time of an event
+ */
+message LightCurve
+{
+  optional string trigger_timestamp = 1;    // timestamp in the ISO form YYYY-MM-DDTHH:MM:SS.ssssssZ
+                                            // time of the nlise trigger for this sensor
+  optional int32 coarse_event_time = 2;     // Spacecraft coarse event time.  Units?
+  repeated SampleData samples      = 3;     // There can be 0 or more of these
+  repeated AablData dtoa_data      = 4;     // D-toe AABL data
+  repeated ProcessData processed   = 5;     // Processed data
+}

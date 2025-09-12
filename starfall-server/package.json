@@ -1,0 +1,44 @@
+{
+  "name": "starfall-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/bin/www.ts",
+  "scripts": {
+    "serve": "rm -rf dist && tsc --build && mkdir -p dist/config && cp src/config/*.config dist/config/ && concurrently --handle-input \"cd dist && NODE_ENV=development nodemon bin/www.js\" \"tsc --build --watch\"",
+    "build": "rm -rf dist && tsc --build && mkdir -p dist/config && cp src/config/*.config dist/config/",
+    "prod-serve": "cd dist && node bin/www.js",
+    "test": "mkdir -p config && cp src/config/*.config config/ && NODE_ENV=development mocha --config .mocarc.json; rm -rf config"
+  },
+  "dependencies": {
+    "convict": "^6.1.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.6.0",
+    "starfall-common": "1.0.0",
+    "express": "^4.17.1",
+    "jison": "^0.4.18",
+    "lex": "^1.7.9",
+    "pg": "^8.6.0",
+    "socket.io": "^4.8.0",
+    "winston": "^3.3.3",
+    "zeromq": "^6.0.0-beta.6"
+  },
+  "devDependencies": {
+    "@types/assert": "^1.5.4",
+    "@types/convict": "^6.0.2",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/express": "^4.17.12",
+    "@types/mocha": "^8.2.2",
+    "@types/pg": "^8.6.0",
+    "@types/socket.io": "^3.0.1",
+    "@types/zeromq": "^5.2.0",
+    "@typescript-eslint/eslint-plugin": "^4.26.1",
+    "@typescript-eslint/parser": "^4.26.1",
+    "assert": "^2.0.0",
+    "concurrently": "^6.2.0",
+    "eslint": "^7.28.0",
+    "mocha": "^11.1.0",
+    "nodemon": "^3.1.9",
+    "ts-node": "^9.1.1"
+  }
+}

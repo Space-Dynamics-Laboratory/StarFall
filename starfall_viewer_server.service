@@ -1,0 +1,17 @@
+[Unit]
+Description=StarFall Viewer Server
+After=network.target
+After=nfs-client.target
+After=postgresql-9.4.target
+After=httpd.service
+
+[Service]
+Environment=NODE_ENV=production
+Type=simple
+# User=username
+# Group=groupname
+ExecStart=/opt/node/bin/node /opt/StarFall/bin/startfall-server/dist/bin/www.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

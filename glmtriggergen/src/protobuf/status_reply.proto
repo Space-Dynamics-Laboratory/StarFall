@@ -1,0 +1,62 @@
+/*
+################################################################################################
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#################################################################################################
+*/
+
+syntax = "proto2";
+package applibs.appcore.proto;
+
+/**
+ * Defines a message for returning status information about worker plugins
+ */
+message StatusItem
+{
+  // Time of the status information
+  optional string timestamp =
+    1; // string in the ISO form YYYY-MM-DDTHH:MM:SS.ssssssZ
+
+  // The status information
+  optional string status = 2;
+
+  // true if an error occured with the status (information about the error can
+  // be
+  // found in the status message)
+  optional bool error_flag = 3;
+}
+
+/**
+ *  Define a message for storing the key values
+ */
+message StatusKey
+{
+  // main key and sub key for identying generating class and statistic
+  optional string main_key = 1;
+  optional string sub_key  = 2;
+
+  // the actual status items
+  repeated StatusItem status = 3;
+}
+
+/**
+ *  Define the overall message container for status items
+ */
+message StatusInformation
+{
+  repeated StatusKey record = 1;
+}

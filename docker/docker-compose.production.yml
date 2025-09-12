@@ -1,0 +1,113 @@
+################################################################################################
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#################################################################################################
+services:
+  starfallviewer:
+    container_name: starfall-production
+    build:
+      context: ../
+      dockerfile: ./docker/rh8-production.dockerfile
+    depends_on:
+      database:
+        condition: service_healthy
+    # environment:
+    #   - DB_PASSWORD=password
+    # volumes:
+      ### ALTERNATIVE WAY TO OVERWRITE DEFAULT PRODUCTION CONFIG FILE ###
+      # - ./starfall-viewer-server-production.config:/etc/starfall/starfall-viewer-server-production.config 
+      ### CREATE A `logs` DIRECTORY OR POINT TO LOGS DIRECTORY ###
+      # - <LOG_DIR>:/opt/starfall/log/starfall-viewer/
+      ### POINT THIS TO YOUR CERTS DIRECTORY ###
+      # - ../certs/:/etc/starfall/certs/
+    ports:
+      - "8080:8080"
+    networks:
+      - starfall-network
+  glmtrigger:
+    container_name: glmtrigger
+    build:
+      context: ../glmtriggergen
+      dockerfile: ../glmtriggergen/docker/production.dockerfile
+    depends_on:
+      database:
+        condition: service_healthy
+    restart: on-failure
+    command: [ "python3", "GlmTriggerGen.py", "-c" ]
+    # command: [ "/bin/bash", "-c", "sleep infinity" ]
+    ### Mount data directory to the container ###
+    # volumes:
+    #   - <data directory of .nc files>:/home/developer/data
+    # TODO: Add nc to glmtrigger image to do the healthcheck
+    # healthcheck:
+    #   test: ["CMD", "nc", "-z", "127.0.0.1", "5668"]
+    #   interval: 5s
+    #   retries: 5
+    #   start_period: 5s
+    environment:
+      - DB_HOST=starfall-database
+      # - SMTP_SEND=False
+      # - BASE_PATH=/home/developer
+      # - STATUS_CONNECTION=tcp://*:5668
+    networks:
+      - starfall-network
+  database:
+    container_name: starfall-database
+    build:
+      context: ../
+      dockerfile: ./starfall-database/database.dockerfile
+    environment:
+      # This sets the default postgres user password
+      # To set the starfall_admin password use pgAdmin4 (starfall database -> Login/Group Roles -> starfall_admin -> Properties -> Definition)
+      # Then use that newly updated password for the starfallviewer, glmtrigger and backend microservices
+      - POSTGRES_PASSWORD=password
+      # - SKIP_INIT_1=true # create database and users
+      # - SKIP_INIT_2=true # run pg_restore with provided dump file
+      # - SKIP_INIT_3=true # run shmig migrations
+      # - SKIP_INIT_4=true # fill database with mock data
+      # - BACKUP_FILE=/backups/latest.dump
+    volumes:
+      - type: volume
+        source: production-dbdata
+        target: /var/lib/pgsql/16/data
+      # - ./latest.dump:/backups/latest.dump
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 5
+      start_period: 5s
+    ports:
+      - "5432:5432"
+    networks:
+      - starfall-network
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=starfall.admin@sdl.usu.edu
+      - PGADMIN_DEFAULT_PASSWORD=password
+    ports:
+      - "9000:80"
+    networks:
+      - starfall-network
+
+networks:
+  starfall-network:
+    name: starfall-network
+
+volumes:
+  production-dbdata:

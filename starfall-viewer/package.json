@@ -1,0 +1,53 @@
+{
+  "name": "starfall-viewer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host --port 8080",
+    "serve": "vite --host --port 8080",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --build --force",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "format": "prettier --write src/"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/vue-fontawesome": "^3.0.8",
+    "@vueform/slider": "^2.1.10",
+    "cesium": "^1.124.0",
+    "d3": "^7.9.0",
+    "starfall-common": "1.0.0",
+    "html2canvas": "^1.4.1",
+    "jszip": "^3.10.1",
+    "pinia": "^2.1.7",
+    "rainbowvis.js": "^1.1.1",
+    "socket.io-client": "^4.8.0",
+    "splitpanes": "^3.1.5",
+    "tinycolor2": "^1.6.0",
+    "vue": "^3.4.29",
+    "vue-toastification": "^2.0.0-rc.5",
+    "vue3-tabs-component": "^1.3.7",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@rushstack/eslint-patch": "^1.8.0",
+    "@tsconfig/node20": "^20.1.4",
+    "@types/d3": "^7.4.3",
+    "@vitejs/plugin-vue": "^5.0.5",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/eslint-config-typescript": "^13.0.0",
+    "@vue/tsconfig": "^0.5.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-vue": "^9.23.0",
+    "npm-run-all2": "^6.2.0",
+    "prettier": "^3.2.5",
+    "sass": "^1.79.4",
+    "vite": "^5.3.1",
+    "vite-plugin-static-copy": "^2.0.0",
+    "vue-tsc": "^2.0.21"
+  }
+}

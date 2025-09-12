@@ -1,0 +1,56 @@
+/*
+################################################################################################
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#################################################################################################
+*/
+// when compiled into code, the protobuf variables have names that are in
+//   lowercase only. Thus names using camelcase become more difficult to read.
+//   We use underscores here.
+// NOTE
+// 'required' is a proto2 keyword syntax. if you are using proto3, remove the
+//   'required' keyword. Putting the sample data in this sub structure will
+//   enforce that there are the sample number of data points for each. We
+//   assume this is correct. If there can be a different number of points
+//   for each data, then we will re-consider how this is accomplished.
+
+syntax = "proto2";
+package applibs.appcore.proto;
+
+/**
+ * Defines a message for requesting specific keys in conjuction with
+ * status_request
+ */
+message KeyPair
+{
+  // set of two keys, main and sub
+  optional string main_key = 1 [ default = "" ];
+  optional string sub_key = 2 [ default = "" ];
+}
+
+/**
+ * Defines a message for requesting status from different worker plugins
+ */
+message StatusRequest
+{
+  // number of status records to fetch
+  optional int32 num_records = 1 [ default = 999999 ];
+  // time to search for status records
+  optional int32 time_length_milli = 2 [ default = 999999 ];
+  // key names to return (if left empty, returns all keys)
+  repeated KeyPair keys = 3;
+}

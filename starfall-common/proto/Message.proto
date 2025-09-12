@@ -1,0 +1,105 @@
+/*************************************************************************************************
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing,
+* software distributed under the License is distributed on an
+* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+* KIND, either express or implied.  See the License for the
+* specific language governing permissions and limitations
+* under the License.
+**************************************************************************************************/
+
+ syntax = "proto2";
+
+ message DoubleVector
+ {
+   optional double x = 1 [default=0];
+   optional double y = 2 [default=0];
+   optional double z = 3 [default=0];
+ }
+ 
+ message GlmSource
+ {
+   // time since unix epoch (seconds)
+   optional double time_ssue = 1;
+ 
+   // intensity (kW/sr)
+   optional double intensity_kwsr = 2;
+ 
+   // measurement id
+   optional uint32 id = 3;
+ 
+   // cluster size (number of points that formed this measurement)
+   optional uint32 cluster_size = 4;
+ 
+   // satId
+   optional uint32 sat_id = 5;
+ 
+   // location in ECEF (meters)
+   optional DoubleVector sat_pos_ecf_m = 6;
+ 
+   // position in ECEF (meters)
+   optional DoubleVector los_near_point_ecf_m = 7;
+   optional DoubleVector los_far_point_ecf_m = 8;
+ }
+ 
+ message GlmCollection
+ {
+   // info for each measurement
+   repeated GlmSource meas = 1;
+ }
+ 
+ message EventMsg
+ {
+   message EventParams
+   {
+	 optional string peak_brightness_time_iso_utc = 1; // approx_trigger_time
+	 optional DoubleVector peak_brightness_pos_ecf_m = 2;
+	 optional double peak_brightness_velocity_km_sec = 3;
+	 optional double approx_total_radiated_energy = 4; // required. Don't make backend redo
+	 optional DoubleVector pre_entry_velocity_ecf_km_sec = 5;
+   }
+ 
+   enum ProcessingState
+   {
+	 NEW = 0;
+	 WAITING = 1;
+	 PROCESSING = 2;
+	 FAILED = 3;
+	 PARAMETER_ESTIMATION = 4;
+	 USER_ANALYSIS = 5;
+	 APPROVED = 6;
+	 DEFERRED = 7;
+	 REJECTED = 8;
+	 NO_SOLUTION = 9;
+	 NO_DATA = 10;
+   }
+ 
+   optional string event_id = 1; // required
+   optional string parent_id = 2;
+   // for reprocessing. 2 types of reprocessing.
+   // duplicate event and process again. Connect new event with original event.
+   // useful for tuning parameters
+   optional string approx_trigger_time_iso_utc = 3; // required
+   optional string trigger_type = 4; // required
+   optional ProcessingState processing_state = 5 [default=NEW];
+   optional EventParams params = 6; // required see above
+   optional bool archive = 7 [default=false]; // TODO: depracated
+   optional bool announce = 8 [default=true]; // TODO: depracated
+ 
+   oneof trigger_data_oneof
+   {
+	 GlmCollection glm_data = 23;
+   }
+ 
+   optional DoubleVector default_globe_pos_ecf_m = 30; // only for the front-end
+ }
+ 

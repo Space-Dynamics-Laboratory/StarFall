@@ -1,0 +1,18 @@
+{
+  "name": "tmp-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "private": true,
+  "dependencies": {
+    "zeromq": "^6.0.0-beta.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

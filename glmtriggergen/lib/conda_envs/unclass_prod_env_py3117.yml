@@ -1,0 +1,38 @@
+################################################################################################
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#################################################################################################
+name: py3117
+channels:
+  - defaults
+dependencies:
+  - python=3.11.7=h955ad1f_0
+  - conda-pack=0.7.1=py311h06a4308_0
+  - conda-forge::gsutil=5.33=pyhd8ed1ab_0
+  - matplotlib=3.10.0=py311h06a4308_0
+  - netCDF4=1.7.2=py311h25c56f8_1
+  - conda-forge::numba=0.61.2=py311h4e1c48f_0
+  - numpy=2.2.4=py311h210a465_0
+  - protobuf=5.29.3=py311he621ea3_0
+  - psycopg2=2.9.9=py311h5eee18b_1
+  - pytest=8.3.4=py311h06a4308_0
+  - pytest-cov=6.0.0=py311h06a4308_0
+  - python-dotenv=0.21.0=py311h06a4308_0
+  - pyzmq=26.2.0=py311h6a678d5_0
+  - scikit-learn=1.6.1=py311h6a678d5_0
+  - conda-forge::sktime=0.36.0=py311h38be061_0
+# Copy changes made to this file to the unclass requirements files
