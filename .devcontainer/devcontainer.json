@@ -1,0 +1,20 @@
+// See https://aka.ms/vscode-remote/devcontainer.json for format details.
+{
+  // See https://aka.ms/vscode-remote/devcontainer.json for format details.
+  "name": "StarFall Development Environment",
+  "dockerComposeFile": [
+    "./docker-compose.dev.yml",
+    "../docker/docker-compose.production.yml"
+  ],
+  "runServices": [
+    "devcontainer",
+    "database",
+    "glmtrigger",
+    "pgadmin"
+  ],
+  // The service to connect to for development
+  "service": "devcontainer",
+  "workspaceMount": "source=${localWorkspaceFolder}/../,target=/workspace,type=bind",
+  "workspaceFolder": "/workspace"
+  // "postCreateCommand": "bash .devcontainer/postCreate.sh"
+}
