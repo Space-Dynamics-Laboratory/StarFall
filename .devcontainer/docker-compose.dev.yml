@@ -1,0 +1,18 @@
+services:
+  devcontainer:
+    container_name: devcontainer
+    build:
+      context: ../
+      dockerfile: ./docker/rh8.dockerfile
+    volumes:
+      - ../:/workspace
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    networks:
+      - starfall-network
+
+networks:
+  shared-network:
+    external: true
+    name: starfall-network

@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+[ "$SKIP" = 1 ] && exit 0
+
+GREEN="\033[32m"
+RESET="\033[0m"
+
+##############################
+# $1 list of changed packages
+# $2 command to execute
+##############################
+function run() {
+  declare -a pids
+  
+  for path in $1; do
+    # remove /package.json to get the directory
+    dir=${path%/package.json}
+
+    pushd $dir
+    exec $2 > /dev/null 2>&1 &
+
+    # save the backgrounded process id
+    pids+=($!)
+    popd > /dev/null
+  done
+
+  # wait for processes to finish
+  for pid in ${pids[*]}; do
+    wait $pid 
+  done
+}
+
+changed_packages=$(git diff-tree -r --name-only --no-commit-id ORIG_HEAD HEAD | grep package.json)
+
+if [ ! -z "$changed_packages" ]
+then
+  echo -e "$GREEN - PRUNE - $RESET"
+  run "${changed_packages[@]}" "npm prune"
+
+  echo -e "$GREEN - INSTALL - $RESET"
+  run "${changed_packages[@]}" "npm install"
+
+  echo -e "$GREEN - DONE - $RESET"
+fi
+
+exit 0

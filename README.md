@@ -238,3 +238,5 @@ Dempster, Angus, François Petitjean, and Geoffrey I. Webb. "ROCKET: Exceptional
 © Utah State University Space Dynamics Laboratory
 
 StarFall&trade; is licensed under the Apache 2.0 License.
+
+Contact: StarFall@sdl.usu.edu

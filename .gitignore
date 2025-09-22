@@ -1,0 +1,34 @@
+node_modules
+.ssh
+!.ssh/keycopy.sh
+!.ssh/keygen.sh
+.scannerwork
+.vscode
+
+*.tsbuildinfo
+*.sqlite
+*.log
+
+Data/
+starfall-common/*.d.ts
+starfall-common/*.d.ts.map
+starfall-common/*.js
+starfall-server/config
+starfall-viewer/tests_output
+
+# merge artifacts
+*.orig
+
+# build artifacts
+*dist
+starfall-Viewer-*/
+*.tar.gz
+*.spec
+*.rpm
+
+migrate
+keys/*
+*.asc
+
+certs
+.env
