@@ -27,6 +27,8 @@
 
 The **StarFall** software enables users to detect bolides, or fireballs, in the sky in near real-time. Bolides are a type of bright meteor which explode as they enter Earth's atmosphere.
 
+<img src="starfall-docs/starfall-screenshot.png" alt="StarFall Screenshot" />
+
 ## Introduction
 
 **StarFall** is a near real-time bolide detection and alert system that was built by the [Space Dynamics Laboratory](https://sdl.usu.edu/) while under the support of [NASA's Planetary Defense Coordination Office](https://science.nasa.gov/planetary-defense/). StarFall ingests Geostationary Lightning Mapper (GLM) L2 netCDF data from the National Oceanic and Atmospheric Administration’s (NOAA) Geostationary Operational Environmental Satellites (GOES). Although the GLM sensors were originally designed to detect lightning, they can also detect bolide signatures (see [Jenniskens et al. 2018](#references), and [Rumpf et al. 2019](#references)).
@@ -60,46 +62,13 @@ StarFall requires the following software:
 
 StarFall was developed within [Docker CE](https://docs.docker.com/engine/install/) dev containers on [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) while using [Microsoft's Dev Container extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) within [Visual Studio (VS) Code](https://code.visualstudio.com/). This is the workspace assumed for the following instructions. It is highly recommended to replicate this workspace in order to run StarFall. [Firefox](https://www.firefox.com/en-US/) is the supported browser for StarFall.
 
-### Setup
+> Currently Firefox browser is the best supported browser for this application. Other browsers work too but may run into occasional issues.
 
-In order to run StarFall, a one-time installation of dependencies is required. This is best accomplished within the dev environment. To launch the dev environment inside a docker container:
+## Running StarFall In The Production Environment
 
-1. Clone the [StarFall Repository](https://github.com/Space-Dynamics-Laboratory/StarFall)
-<br> `git clone git@github.com:Space-Dynamics-Laboratory/StarFall.git`
-2. Open the repo in VS Code
-<br> `cd StarFall/`
-<br> `code .`
-3. If you have the Dev Container extension installed, VS Code will detect the `.devcontainer` directory and prompt the user to open the repo in the container. If not, from the Command Palette (Ctrl+Shift+P) select `Remote Containers: Open Folder In Container...`
-4. You now have access to the dev environment. For specific information about each project, see the README included in each sub directory.
+The StarFall software can run with its production environment using Docker images.
 
-The one-time installation of dependencies and build of starfall-common is accomplished by running the following in a terminal in the dev environment:
-
-```bash
-npm i
-
-cd starfall-common
-npm run build
-
-cd ..
-```
-
-Once the above installation and build are complete, the StarFall server and client can be started by running the following script:
-
-```bash
-./_scripts/start.py
-```
-
-The StarFall web-based viewer will then be accessible from Firefox by navigating to `http://localhost:8080`.
-
-After completing the above one-time installation process, the application can be launched at anytime using `./_scripts/start.py`.
-
-See the Development Environment section below for more details.
-
-## Production Environment
-
-Once the one-time installation step above is complete, the StarFall software can also be started within its production environment using Docker images (without VS Code).
-
-To start the application stack, run the following in a WSL terminal:
+To start the application stack, run the following in a terminal:
 
 ```bash
 cd StarFall
@@ -132,15 +101,43 @@ docker compose -f ./docker/docker-compose.production.yml down
 
 Additional details on how to run Docker compose commands can be found on [Docker’s online documentation](https://docs.docker.com/compose/).
 
-## Development Environment
+### Setup for Development
 
-### The StarFall Dev Container
+In order to run StarFall for development, a one-time installation of dependencies is required. This is best accomplished within the dev docker environment. To launch the dev environment inside a docker container:
 
-As mentioned above, this repo contains instruction in the [.devcontainer](.devcontainer) directory for VS Code to deploy a development Docker container. To develop in this devcontainer follow the instructions found here:
+1. Clone the [StarFall Repository](https://github.com/Space-Dynamics-Laboratory/StarFall)
+    `git clone git@github.com:Space-Dynamics-Laboratory/StarFall.git`
+2. Open the repo in VS Code
+    `cd StarFall/`
+    `code .`
+3. If you have the Dev Container extension installed, VS Code will detect the `.devcontainer` directory and prompt the user to open the repo in the container. If not, from the Command Palette (Ctrl+Shift+P) select `Remote Containers: Open Folder In Container...`
+4. You now have access to the dev environment. For specific information about each project, see the README included in each sub directory.
 
-<https://code.visualstudio.com/docs/remote/containers>
+> For more information about developing in containers see <https://code.visualstudio.com/docs/remote/containers>
 
-The rest of the plugins and dependencies will be installed by the devcontainer.
+The **one-time** installation of dependencies and build of `starfall-common` is accomplished by running the following in a terminal in the dev environment:
+
+```bash
+npm i
+
+cd starfall-common
+npm run build
+
+cd ..
+```
+
+Once the above installation and build are complete, the StarFall server and client can be started by running the following script:
+
+```bash
+./_scripts/start.py
+```
+
+The StarFall web-based viewer will then be accessible from a browser by navigating to `http://localhost:8080`.
+
+After completing the above one-time installation process, the application can be launched at anytime using `./_scripts/start.py`.
+
+> If you would like dummy data populated in the database set `SKIP_INIT_4=false` in the `docker-compose.production.yml` and the database will populate the database with mock data upon initialization.
+> If you have already run StarFall you will need to remove the previous docker volume with  `docker volume rm production_dbdata`  for the database to trigger initialization.
 
 ### SSH keys
 
@@ -175,9 +172,9 @@ Or alternatively (recommended) you can reverse-proxy the app through a web serve
 
 ### Mock Data Generation
 
-By default, mock data is generated and populated within the database when starting up the StarFall dev container. To omit the mock data from being added to the database, a user can add `- SKIP_INIT_4=true` to the database service's environment within the `docker/docker-compose.production.yml` file.
+Mock data can be generated and inserted into database when starting up the StarFall dev container. To omit the mock data from being added to the database, a user can add `- SKIP_INIT_4=true` to the database service's environment within the `docker/docker-compose.production.yml` file.
 
-### The GLM TG Development Environment
+### The GLM Trigger Development Environment
 
 While the `docker/docker-compose.production.yml` file automatically starts up a container with a running GLM TG when starting the StarFall dev enviroment, the GLM TG consists mostly of Python code and is best developed in its own dev environment (using the `.devcontainer` within the `glmtriggergen` directory). Hence, the `glmtrigger` service can be shut off by commenting it out in `/workspace/.devcontainer/devcontainer.json`, and a separate dev environment can be opened by changing directories in a separate WSL terminal to the `glmtriggergen` directory and opening VS Code similar to the StarFall dev environment. The GLM TG can then be started manually in its own dev enviroment by running the following:
 
