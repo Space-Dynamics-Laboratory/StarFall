@@ -102,14 +102,14 @@ Once the one-time installation step above is complete, the StarFall software can
 To start the application stack, run the following in a WSL terminal:
 
 ```bash
-cd StarFall/docker
-docker compose -f docker-compose.production.yml up
+cd StarFall
+docker compose -f ./docker/docker-compose.production.yml up
 ```
 
 A "-d" flag can be provided to run the Docker Compose command in a detached terminal:
 
 ```bash
-docker compose -f docker-compose.production.yml up -d
+docker compose -f ./docker/docker-compose.production.yml up -d
 ```
 
 You can verify that all services are running with:
@@ -127,7 +127,7 @@ docker compose logs -f
 To shut down the system and all containers, run the following command:
 
 ```bash
-docker compose -f docker-compose.production.yml down
+docker compose -f ./docker/docker-compose.production.yml down
 ```
 
 Additional details on how to run Docker compose commands can be found on [Docker’s online documentation](https://docs.docker.com/compose/).

@@ -27,9 +27,9 @@ services:
         condition: service_healthy
     # environment:
     #   - DB_PASSWORD=password
-    # volumes:
+    volumes:
       ### ALTERNATIVE WAY TO OVERWRITE DEFAULT PRODUCTION CONFIG FILE ###
-      # - ./starfall-viewer-server-production.config:/etc/starfall/starfall-viewer-server-production.config 
+      - ../starfall-server/src/config/starfall-viewer-server-production.config:/etc/starfall/starfall-viewer-server-production.config 
       ### CREATE A `logs` DIRECTORY OR POINT TO LOGS DIRECTORY ###
       # - <LOG_DIR>:/opt/starfall/log/starfall-viewer/
       ### POINT THIS TO YOUR CERTS DIRECTORY ###
