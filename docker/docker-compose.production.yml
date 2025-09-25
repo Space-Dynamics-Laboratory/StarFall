@@ -78,7 +78,7 @@ services:
       # - SKIP_INIT_1=true # create database and users
       # - SKIP_INIT_2=true # run pg_restore with provided dump file
       # - SKIP_INIT_3=true # run shmig migrations
-      # - SKIP_INIT_4=true # fill database with mock data
+      - SKIP_INIT_4=true # fill database with mock data
       # - BACKUP_FILE=/backups/latest.dump
     volumes:
       - type: volume
