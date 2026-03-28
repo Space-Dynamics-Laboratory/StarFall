@@ -10,7 +10,7 @@
     "test": "mkdir -p config && cp src/config/*.config config/ && NODE_ENV=development mocha --config .mocarc.json; rm -rf config"
   },
   "dependencies": {
-    "convict": "^6.1.0",
+    "convict": "^6.2.5",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.6.0",
