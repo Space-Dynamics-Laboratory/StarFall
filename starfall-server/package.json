@@ -10,18 +10,18 @@
     "test": "mkdir -p config && cp src/config/*.config config/ && NODE_ENV=development mocha --config .mocarc.json; rm -rf config"
   },
   "dependencies": {
-    "convict": "^6.1.0",
+    "convict": "^6.2.5",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.6.0",
     "starfall-common": "1.0.0",
-    "express": "^4.17.1",
+    "express": "^4.22.0",
     "jison": "^0.4.18",
     "lex": "^1.7.9",
     "pg": "^8.6.0",
     "socket.io": "^4.8.0",
     "winston": "^3.3.3",
-    "zeromq": "^6.0.0-beta.6"
+    "zeromq": "^6.5.0"
   },
   "devDependencies": {
     "@types/assert": "^1.5.4",
