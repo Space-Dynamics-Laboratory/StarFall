@@ -139,6 +139,29 @@ After completing the above one-time installation process, the application can be
 > If you would like dummy data populated in the database set `SKIP_INIT_4=false` in the `docker-compose.production.yml` and the database will populate the database with mock data upon initialization.
 > If you have already run StarFall you will need to remove the previous docker volume with  `docker volume rm production_dbdata`  for the database to trigger initialization.
 
+### Shutting Down the Development Environment
+
+The dev environment runs four containers from `.devcontainer/docker-compose.dev.yml` and `docker/docker-compose.production.yml`: `devcontainer`, `starfall-database`, `glmtrigger` and `pgadmin`. The Dev Container extension starts them as a Docker Compose project named after the repo folder, in lowercase, followed by `_devcontainer`. For a default clone into `StarFall/` the project name is `starfall_devcontainer`. Run `docker compose ls -a` to see it.
+
+By default, closing the VS Code window stops these containers (`"shutdownAction": "stopCompose"`). They start again the next time the folder is reopened in the container.
+
+To shut them down yourself, run one of the following in a terminal on the host. The dev container does not include the Docker CLI.
+
+```bash
+# Stop the containers. Restart them later with `start` or by reopening the folder in the container.
+docker compose -p starfall_devcontainer stop
+
+# Stop and remove the containers and the `starfall-network` network. Volumes are kept.
+docker compose -p starfall_devcontainer down
+
+# Also delete the volumes. The database is re-initialized on the next start.
+docker compose -p starfall_devcontainer down -v
+```
+
+> Running `docker compose -f .devcontainer/docker-compose.dev.yml -f docker/docker-compose.production.yml down` without `-p` does not shut down the dev environment. Docker Compose then uses the project name `devcontainer`, finds no containers and exits without an error.
+
+The dev and production environments use the same container names and host ports, so run `down` on one before starting the other. Stopped containers keep their names, so `stop` is not enough.
+
 ### SSH keys
 
 You can install ssh keys in the [.ssh/](.ssh/) directory so you can interact with the remote repository. If you already have ssh keys setup, simply copy them to the [.ssh/](.ssh/) directory and make sure they are named `id_rsa` and `id_rsa.pub`. The repo is setup to ignore all files inside the [.ssh/](.ssh/) directory so you won't accidentally commit them.
